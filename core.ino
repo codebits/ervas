@@ -19,6 +19,8 @@ void Core_Main()
    /* calculate thermistor temperature 1 */
    sensors_thermistor1_average();
    
+  // motor_move_ccw();
+   
   switch (coreState)
   {
     case CORE_INIT:

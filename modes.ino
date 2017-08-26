@@ -11,13 +11,18 @@ boolean mode1()
    if( RHT03_T > (float)30 ) 
    {
      menu = 1;
-     core_counter = 0; 
+     core_counter = 0;
+     /* move motor in clockwise direction*/
+     if(failedEvents == 0){ motor_move_cw();}
    }
    // temp below 30deg and humidity above 70%
    else if( (RHT03_T <= (float)30) && (RHT03_H < (float )70) )
    {
      menu = 2;
      core_counter = 0; 
+     /* move motor in counter clockwise direction*/
+    if( (RHT03_T <= (float)25) && (failedEvents == 0) ) { motor_move_ccw();}
+    
    }else{
      // Do nothing
    }
@@ -31,6 +36,8 @@ boolean mode1()
     error = 1;
    }
    else{
+         /* stop motor*/
+        if(failedEvents == 0){ motor_stop();}
      if( RHT03_T > (float)30 )
      {
        failedEvents++;
@@ -49,6 +56,7 @@ boolean mode1()
     
   break;
   case 2:
+  
    if( core_counter <= 3000 ){ // wait 30seg (3000*10ms)
      relay_On(pinRele1); // ligar valvula 1
      lcd.setCursor(0,1);
@@ -56,6 +64,8 @@ boolean mode1()
      error = 1;
    }
    else{
+         /* stop motor*/
+     if(failedEvents == 0){ motor_stop();}
      /* Check first how many consecutive cycles. Max allowed cyles are 3.*/
      if( (RHT03_T <= (float)30) && (RHT03_H < (float )70) ){
        failedEvents++;
@@ -79,6 +89,7 @@ boolean mode1()
     relay_Off(pinRele2);// desligar valvula 2
     lcd.setCursor(0,1);
     lcd.print("All valves OFF      ");
+    motor_stop();
   }
 return error;
 }

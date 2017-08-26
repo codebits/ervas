@@ -38,6 +38,9 @@ int lcd_ButtonDown = 35;
 int ldr_sensor = A0;
 // Pin thermistor 1
 int sensors_thermistor1 = A1;
+// Pin motor
+int motor_in1 = A14;
+int motor_in2 = A15;
 
 /* Structure for Core */
 enum core_currentState { CORE_INIT, CORE_LCD, CORE_RELAYS,CORE_MODES,CORE_ERROR };
@@ -78,11 +81,16 @@ int ldr_read();
 int ldr_average();
 int sensors_readThermistor1();
 int sensors_thermistor1_average();
+void motor_init();
+void motor_move_cw();
+void motor_move_ccw();
+void motor_stop();
+void motor_hold();
 
 void setup()
 {
   // Setup Serial connection
-  Serial.begin(9600);
+  //Serial.begin(9600);
   relays_init();
   rtc_init();
   buttons_init();
@@ -97,7 +105,8 @@ void setup()
   // Enable whatcdog of 1 second 
   //wdt_enable(WDTO_250MS);
   //wdt_disable();
-  rtc_serialPrint();
+  //rtc_serialPrint();
+  motor_init();
 }
 
 void loop()
