@@ -14,7 +14,7 @@ void Core_Main()
    byte mode1result;
    /* Print to LCD state machine  */
    lcd_SM();
-
+   ldr_average();
   switch (coreState)
   {
     case CORE_INIT:

@@ -16,6 +16,8 @@ LiquidCrystal_I2C lcd(0x3f,20,4);  // set the LCD address to 0x27 for a 16 chars
 DS3231  rtc(20, 21);
 //Global Variables
 Time t;
+unsigned long int ldr_light = 0;
+
 
 // Pins dos relés
 int pinRele1 = 31;
@@ -32,6 +34,9 @@ int lcd_ButtonOk = 37;
 int lcd_ButtonUp = 36 ;
 int lcd_ButtonDown = 35;
 
+// Pin do LDR
+int ldr_sensor = A0;
+
 /* Structure for Core */
 enum core_currentState { CORE_INIT, CORE_LCD, CORE_RELAYS,CORE_MODES,CORE_ERROR };
 core_currentState coreState;
@@ -43,7 +48,10 @@ enum lcd_states { LCD_INIT,LDC_HOME,LCD_MENU1,LCD_MENU2,LCD_ERROR };
 lcd_states lcd_currentState;
 byte lcd_lastButtonPressed = 0;
 
-boolean Modes_active = true;
+/* Activate Automatic modes from the start
+ - Set true to activate.
+ - Set False to deactivate               */
+boolean Modes_active = false;
 
 // Data wire is plugged into port 7
 // Connect a 4.7K resistor between VCC and the data pin (strong pullup)
@@ -64,7 +72,8 @@ void rtc_init();
 void relay_set(byte buttons);
 void relay_On(int relay);
 void relay_Off(int relay);
-
+int ldr_read();
+int ldr_average();
 
 
 void setup()

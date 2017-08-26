@@ -108,8 +108,13 @@ void lcd_SM()
                     
                     lcd.setCursor(0,3);
                     lcd.print("T2:");
-//                    lcd.setCursor(10,2);
-//                    lcd.print("LUZ:");
+                    
+                    lcd.setCursor(9,3);
+                    lcd.print("LUZ:");
+                    lcd.setCursor(13,3);
+                    lcd.print(ldr_light);
+                    lcd.setCursor(15,3);
+                    lcd.print("%");
 
                     if( buttons == (byte)1u ){
                     lcd.clear();
