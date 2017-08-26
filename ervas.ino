@@ -17,7 +17,7 @@ DS3231  rtc(20, 21);
 //Global Variables
 Time t;
 unsigned long int ldr_light = 0;
-
+double sensors_thermistor1_temp = 0;
 
 // Pins dos relés
 int pinRele1 = 31;
@@ -36,6 +36,8 @@ int lcd_ButtonDown = 35;
 
 // Pin do LDR
 int ldr_sensor = A0;
+// Pin thermistor 1
+int sensors_thermistor1 = A1;
 
 /* Structure for Core */
 enum core_currentState { CORE_INIT, CORE_LCD, CORE_RELAYS,CORE_MODES,CORE_ERROR };
@@ -74,7 +76,8 @@ void relay_On(int relay);
 void relay_Off(int relay);
 int ldr_read();
 int ldr_average();
-
+int sensors_readThermistor1();
+int sensors_thermistor1_average();
 
 void setup()
 {

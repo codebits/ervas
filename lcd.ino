@@ -107,7 +107,9 @@ void lcd_SM()
 //                    lcd.print("SOLO:");
                     
                     lcd.setCursor(0,3);
-                    lcd.print("T2:");
+                    lcd.print("T2");
+                    lcd.setCursor(3,3);
+                    lcd.print(sensors_thermistor1_temp);
                     
                     lcd.setCursor(9,3);
                     lcd.print("LUZ:");

@@ -14,7 +14,11 @@ void Core_Main()
    byte mode1result;
    /* Print to LCD state machine  */
    lcd_SM();
+   /* calculate ambient light  */
    ldr_average();
+   /* calculate thermistor temperature 1 */
+   sensors_thermistor1_average();
+   
   switch (coreState)
   {
     case CORE_INIT:

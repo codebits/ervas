@@ -42,3 +42,55 @@ void sensors_readRHT03()
   }
 
 }
+
+
+/* NTC THERMISTOR Type: NTC 10k±1% 3950
+http://www.eidusa.com/Electronics_Kits_TEMP_THERMISTOR_1.htm
+http://www.circuitbasics.com/arduino-thermistor-temperature-sensor-tutorial/
+
+*/
+
+/* reads light value from the sensor ldr */
+int sensors_readThermistor1()
+{
+  int thermistor;
+   thermistor = (int) analogRead(sensors_thermistor1); 
+  return thermistor;
+}
+
+/* calulate average ambient light*/
+int sensors_thermistor1_average()
+{
+  static byte counter = 0;
+  static double temp = 0;
+  /* Original constant values
+      c1 = 0.001129148; 
+      c2 = 0.000234125;
+      c3 = 0.0000000876741;
+  */
+  double c1 = 0.001135148; 
+  double c2 = 0.000234125;
+  double c3 = 0.0000000876741;
+  
+  if (counter == (byte)20)
+  {
+      /* light average. Range 0 - 1023 */
+      temp = (double) (temp / 20);
+      /* convert to temperature       */
+       // R = 10K * { (2V / Vout) -1}
+       temp = (double)(log(10000.0/(double)(1023.0 /(double)temp - 1.0)));
+       // T = 1 / {C1 + C2[ln(R)] + C3[ln(R)]^3}
+       temp = (double) ( 1.0 / (c1 + (c2 + (c3 * temp * temp ))* temp ) );
+       temp = (double) (temp - 273.15); 
+      sensors_thermistor1_temp = (double)temp;
+      counter = 0;
+      temp = 0;
+  }
+  else
+  {
+    temp +=  sensors_readThermistor1();
+    counter++;
+  }
+
+return  sensors_thermistor1_temp;
+}
